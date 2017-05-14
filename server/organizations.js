@@ -41,7 +41,7 @@ fs.readFile('../data/organizations.csv', 'utf8', function (err, contents) {
                         coords.push({
                             latitude: coordinates[0],
                             longitude: coordinates[1],
-                            name: statObjList[i].name,
+                            // name: statObjList[i].name,
                             recall_count: statObjList[i].recall_count
                         })
                     });

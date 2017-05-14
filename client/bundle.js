@@ -21,18 +21,40 @@ let mapInitParams = {
 };
 
 let myMap;
-const colors = ['red', 'blue', 'green', 'orange', 'purple', 'gray', 'maroon', 'lime', 'aqua', 'teal', 'fuchsia', 'navy', 'yellow', 'black'];
+const colors = [
+    '#FF0000',
+    '#FF7400',
+    '#009999',
+    '#00CC00',
+    '#BF3030',
+    '#BF7130',
+    '#1D7373',
+    '#269926',
+    '#A60000',
+    '#A64B00',
+    '#006363',
+    '#008500',
+    '#FF4040',
+    '#FF9640',
+    '#33CCCC',
+    '#39E639',
+    '#FF7373',
+    '#FFB273',
+    '#5CCCCC',
+    '#67E667'
+];
+
 ymaps.ready(function () {
     myMap = new ymaps.Map("map", mapInitParams);
     myMap.container.enterFullscreen();
 
-    getData('../data/coords_labeled.json').then(function (res) {
-        const coords = JSON.parse(res);
+    getData('../data/organizations_labeled.json').then(function (res) {
+        const coords = JSON.parse(res).places;
         for (let coord of coords) {
             const myGeoObject = new ymaps.GeoObject({
                 geometry: {
                     type: "Point",
-                    coordinates: [coord['latitude'], coord['longitude']]
+                    coordinates: coord['point']
                 },
 
                 properties: {}

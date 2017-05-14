@@ -3,7 +3,7 @@ import json
 import numpy as np
 from sklearn.cluster import AffinityPropagation
 
-with open('../data/coords.json') as data_file:
+with open('../data/organizations.json') as data_file:
     data = json.load(data_file)
 
 X = []
@@ -24,7 +24,8 @@ for i in range(0, sample_count):
     label = labels[i]
     coords_labeled.append({
         'point': [latitude, longitude],
-        'label': str(label)
+        'label': str(label),
+        'recall_count': data[i]['recall_count']
     })
 
 labels_unique = np.unique(labels)
@@ -39,5 +40,5 @@ data = {
     'centers': cluster_centers_
 }
 
-with open('../data/data_labeled.json', 'w') as outfile:
+with open('../data/organizations_labeled.json', 'w') as outfile:
     json.dump(data, outfile)
