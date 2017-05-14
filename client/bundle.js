@@ -22,31 +22,43 @@ let mapInitParams = {
 
 let myMap;
 const colors = [
-    '#FF0000',
-    '#FF7400',
-    '#009999',
-    '#00CC00',
-    '#BF3030',
-    '#BF7130',
-    '#1D7373',
-    '#269926',
-    '#A60000',
-    '#A64B00',
-    '#006363',
-    '#008500',
-    '#FF4040',
-    '#FF9640',
-    '#33CCCC',
-    '#39E639',
-    '#FF7373',
-    '#FFB273',
-    '#5CCCCC',
-    '#67E667'
+    'blue',
+    'darkblue',
+    'darkgreen',
+    'darkorange',
+    'green',
+    'grey',
+    'lightblue',
+    'night',
+    'orange',
+    'pink',
+    'red',
+    'violet',
+    'white',
+    'yellow',
+    'brown',
+    'black',
+    'black'
 ];
+
+let clusterers = [];
 
 ymaps.ready(function () {
     myMap = new ymaps.Map("map", mapInitParams);
     myMap.container.enterFullscreen();
+
+    for (let color of colors) {
+        clusterers.push(new ymaps.Clusterer({
+            preset: 'islands#' + color + 'ClusterIcons',
+            groupByCoordinates: false,
+            clusterDisableClickZoom: false,
+            clusterHideIconOnBalloonOpen: false,
+            geoObjectHideIconOnBalloonOpen: false,
+
+            clusterOpenBalloonOnClick: false,
+            clusterBalloonPanelMaxMapArea: 0
+        }));
+    }
 
     getData('../data/organizations_labeled.json').then(function (res) {
         const coords = JSON.parse(res).places;
@@ -61,7 +73,10 @@ ymaps.ready(function () {
             }, {
                 iconColor: colors[parseInt(coord['label'])]
             });
-            myMap.geoObjects.add(myGeoObject);
+
+            clusterer = clusterers[parseInt(coord['label'])];
+            clusterer.add(myGeoObject);
+            myMap.geoObjects.add(clusterer);
         }
     });
 });
