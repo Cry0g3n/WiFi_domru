@@ -9,18 +9,17 @@ provider.getText = function (point) {
     return point.address;
 };
 
-fs.readFile('data/stat.csv', 'utf8', function (err, contents) {
+fs.readFile('../data/organizations.csv', 'utf8', function (err, contents) {
     const csvStr = contents;
     const csvParams = {
         noheader: true,
         delimiter: ';',
-        headers: ['address', 'name', 'connection_count']
+        headers: ['name', 'address', 'recall_count']
     };
 
     csv(csvParams)
         .fromString(csvStr)
         .on('end_parsed', (statObjList) => {
-            statObjList.shift();
             const geoRequest = [];
 
             for (let obj of statObjList) {
@@ -31,23 +30,24 @@ fs.readFile('data/stat.csv', 'utf8', function (err, contents) {
 
             geocoder.geocode(geoRequest)
                 .then(function (res) {
-                    // console.log(res);
 
                     const result = res['result'];
-                    const features = result['features']
+                    const features = result['features'];
                     const coords = [];
 
-                    for (let feature of features) {
+                    features.forEach(function (feature, i) {
                         const geometry = feature['geometry'];
                         const coordinates = geometry['coordinates'];
                         coords.push({
                             latitude: coordinates[0],
-                            longitude: coordinates[1]
+                            longitude: coordinates[1],
+                            name: statObjList[i].name,
+                            recall_count: statObjList[i].recall_count
                         })
-                    }
+                    });
 
                     const jsonCoords = JSON.stringify(coords);
-                    fs.writeFile("data/coords.json", jsonCoords, function(err) {
+                    fs.writeFile("../data/organizations.json", jsonCoords, function(err) {
                         if(err) {
                             return console.log(err);
                         }

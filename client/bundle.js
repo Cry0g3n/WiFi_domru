@@ -1,4 +1,4 @@
-let getCoords = function (url) {
+let getData = function (url) {
     return new Promise(function (resolve, reject) {
         const req = new XMLHttpRequest();
         req.open('GET', url);
@@ -21,12 +21,12 @@ let mapInitParams = {
 };
 
 let myMap;
-const colors = ['red', 'blue', 'green', 'orange', 'purple', 'gray'];
+const colors = ['red', 'blue', 'green', 'orange', 'purple', 'gray', 'maroon', 'lime', 'aqua', 'teal', 'fuchsia', 'navy', 'yellow', 'black'];
 ymaps.ready(function () {
     myMap = new ymaps.Map("map", mapInitParams);
     myMap.container.enterFullscreen();
 
-    getCoords('data/coords_labeled.json').then(function (res) {
+    getData('../data/coords_labeled.json').then(function (res) {
         const coords = JSON.parse(res);
         for (let coord of coords) {
             const myGeoObject = new ymaps.GeoObject({
