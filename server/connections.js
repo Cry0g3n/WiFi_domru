@@ -42,6 +42,7 @@ fs.readFile('../data/connections.csv', 'utf8', function (err, contents) {
                         coords.push({
                             latitude: coordinates[0],
                             longitude: coordinates[1],
+                            point: [coordinates[0], coordinates[1]],
                             name: statObjList[i].name,
                             connection_count: statObjList[i].connection_count
                         })
