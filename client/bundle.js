@@ -23,17 +23,17 @@ let mapInitParams = {
 let myMap;
 const colors = [
     'blue',
-    'darkblue',
+    'red',
     'darkgreen',
     'darkorange',
-    'green',
+    'violet',
     'grey',
     'lightblue',
     'night',
     'orange',
     'pink',
-    'red',
-    'violet',
+    'darkblue',
+    'green',
     'white',
     'yellow',
     'brown',
@@ -60,7 +60,7 @@ ymaps.ready(function () {
         }));
     }
 
-    getData('../data/organizations_labeled.json').then(function (res) {
+    getData('../data/connections_labeled.json').then(function (res) {
         const coords = JSON.parse(res).places;
         for (let coord of coords) {
             const myGeoObject = new ymaps.GeoObject({

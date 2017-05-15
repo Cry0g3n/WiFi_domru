@@ -1,10 +1,12 @@
+import codecs
 import json
 
 import numpy as np
 from sklearn.cluster import MeanShift
 
-with open('../data/organizations.json') as data_file:
-    data = json.load(data_file)
+fileObj = codecs.open('../data/connections.json', "r", "utf_8_sig")
+data = json.loads(fileObj.read())
+fileObj.close()
 
 X = []
 for coord in data:
@@ -25,7 +27,7 @@ for i in range(0, sample_count):
     coords_labeled.append({
         'point': [latitude, longitude],
         'label': str(label),
-        'recall_count': data[i]['recall_count']
+        'recall_count': data[i]['connection_count']
     })
 
 labels_unique = np.unique(labels)
@@ -40,5 +42,5 @@ data = {
     'centers': cluster_centers_
 }
 
-with open('../data/organizations_labeled.json', 'w') as outfile:
+with open('../data/connections_labeled.json', 'w') as outfile:
     json.dump(data, outfile)
